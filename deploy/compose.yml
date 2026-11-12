@@ -54,6 +54,8 @@ services:
       SOCKS_USER: "${SOCKS_USER:-warpuser}"
       SOCKS_PASS: "${SOCKS_PASS:?set SOCKS_PASS in deploy/.env}"
       API_TOKEN: "${POOL_API_TOKEN:-}"
+      POOL_ADMIN_USER: "${POOL_ADMIN_USER:-admin}"
+      POOL_ADMIN_PASSWORD: "${POOL_ADMIN_PASSWORD:-}"
       MIN_HEALTHY: "${MIN_HEALTHY:-14}"
       # Relay runs inside this container through relay-watchdog.sh.
       RELAY_STATE_DIR: /data/relay-root
@@ -141,8 +143,14 @@ services:
       PUBLIC_PORT: "${EDGE_PUBLIC_PORT:-443}"
       PUBLIC_TLS: "${EDGE_PUBLIC_TLS:-1}"
       TZ: "${TZ:-UTC}"
+      SOCKS_ENABLED: "1"
+      SOCKS_PORT: "${EDGE_SOCKS_PORT:-11080}"
+      SOCKS_LISTEN: "0.0.0.0"
+      SOCKS_USER: "${EDGE_SOCKS_USER:-o2a}"
+      SOCKS_PASS: "${EDGE_SOCKS_PASS:-}"
     ports:
       - "${EDGE_PORT:-8443}:${EDGE_NODE_PORT:-8443}"
+      - "${EDGE_SOCKS_PORT:-11080}:${EDGE_SOCKS_PORT:-11080}"
     volumes:
       - ${DATA_ROOT:-./data}/node:/data
     security_opt:
